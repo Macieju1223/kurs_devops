@@ -1,2 +1,2 @@
 # kurs_devops
-branch main
+branch develop
