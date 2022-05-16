@@ -16,12 +16,12 @@ pipeline {
         }
         stage('Sonarqube analysis frontend') {
             steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh "${scannerHome}/bin/sonar-scanner -Dsonar.login=${SONARQUBE_TOKEN}"
-                }
-                timeout(time: 1, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
-                }
+                // withSonarQubeEnv('SonarQube') {
+                //     sh "${scannerHome}/bin/sonar-scanner -Dsonar.login=${SONARQUBE_TOKEN}"
+                // }
+                // timeout(time: 1, unit: 'MINUTES') {
+                //     waitForQualityGate abortPipeline: true
+                // }
             }
         }
         stage('Build Docker Image') {
