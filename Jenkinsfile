@@ -14,16 +14,16 @@ pipeline {
                 sh "docker network rm environment_docker_network"
             }
         }
-        // stage('Sonarqube analysis frontend') {
-        //     steps {
-        //         withSonarQubeEnv('SonarQube') {
-        //             sh "${scannerHome}/bin/sonar-scanner -Dsonar.login=${SONARQUBE_TOKEN}"
-        //         }
-        //         timeout(time: 1, unit: 'MINUTES') {
-        //             waitForQualityGate abortPipeline: true
-        //         }
-        //     }
-        // }
+        stage('Sonarqube analysis frontend') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh "${scannerHome}/bin/sonar-scanner -Dsonar.login=${SONARQUBE_TOKEN}"
+                }
+                timeout(time: 1, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
         stage('Build Docker Image') {
             steps {
                 sh "docker build -t devops_flask_app:${BUILD_NUMBER} -t devops_flask_app:latest ."
@@ -45,11 +45,12 @@ pipeline {
         }
         stage('Upload Docker Image to Docker Hub') {
             steps {
-                sh "docker login -u murbaniaktkh -p ${DOCKER_HUB_PASSWORD}"
-                sh "docker tag devops_flask_app:${BUILD_NUMBER} murbaniaktkh/jenkins_test:${BUILD_NUMBER}"
-                sh 'docker tag devops_flask_app:latest murbaniaktkh/jenkins_test:latest'
-                sh "docker push murbaniaktkh/jenkins_test:${BUILD_NUMBER}"
-                sh 'docker push murbaniaktkh/jenkins_test:latest'
+                echo "upload stage"
+                // sh "docker login -u murbaniaktkh -p ${DOCKER_HUB_PASSWORD}"
+                // sh "docker tag devops_flask_app:${BUILD_NUMBER} murbaniaktkh/jenkins_test:${BUILD_NUMBER}"
+                // sh 'docker tag devops_flask_app:latest murbaniaktkh/jenkins_test:latest'
+                // sh "docker push murbaniaktkh/jenkins_test:${BUILD_NUMBER}"
+                // sh 'docker push murbaniaktkh/jenkins_test:latest'
             }
         }
     }
