@@ -8,21 +8,21 @@ pipeline {
     }
 
     stages {
-        stage('Clear running apps') {
-            steps {
-                sh 'docker rm -f devops_flask_app || true'
-            }
-        }
-        stage('Sonarqube analysis frontend') {
-            steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh "${scannerHome}/bin/sonar-scanner -Dsonar.login=${SONARQUBE_TOKEN}"
-                }
-                timeout(time: 1, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
-                }
-            }
-        }
+        // stage('Clear running apps') {
+        //     steps {
+        //         sh 'docker rm -f devops_flask_app || true'
+        //     }
+        // }
+        // stage('Sonarqube analysis frontend') {
+        //     steps {
+        //         withSonarQubeEnv('SonarQube') {
+        //             sh "${scannerHome}/bin/sonar-scanner -Dsonar.login=${SONARQUBE_TOKEN}"
+        //         }
+        //         timeout(time: 1, unit: 'MINUTES') {
+        //             waitForQualityGate abortPipeline: true
+        //         }
+        //     }
+        // }
         stage('Build Docker Image') {
             steps {
                 sh "docker build -t devops_flask_app:${BUILD_NUMBER} -t devops_flask_app:latest ."
