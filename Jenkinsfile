@@ -16,6 +16,7 @@ pipeline {
         }
         stage('Sonarqube analysis frontend') {
             steps {
+                echo "sonar stage"
                 // withSonarQubeEnv('SonarQube') {
                 //     sh "${scannerHome}/bin/sonar-scanner -Dsonar.login=${SONARQUBE_TOKEN}"
                 // }
